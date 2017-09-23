@@ -5,7 +5,7 @@ const bot = new Discord.Client();
 bot.on('ready', () => {
   console.log('gco is ready!');
   let guilds = bot.guilds.array()
-bot.user.setPresence({game:{name:`use gcohelp | ${guilds.length}`, type:0}})
+bot.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
   });
   bot.on("reconnecting", () => {
       console.log("i was wasting time");
