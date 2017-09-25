@@ -1,0 +1,19 @@
+{
+  "name": "gco",
+  "version": "1.0.0",
+  "description": "bot made by reuben fernandes first goan bot for discord",
+  "main": "app.js",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "node.js": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gco"
+  ],
+  "author": "reuben fernandes",
+  "license": "ISC"
+}
