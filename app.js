@@ -44,7 +44,7 @@ bot.on('guildBanAdd',(guild, user) => {
     chans[0].send(`${user.username} was just banned! `);
 });
 bot.on('guildBanRemove',(guild, user) => {
-    guild.channels.map(c => c)[0].send(`${user.username} was just unbanned!`);
+    chans[0].send(`${user.username} was just unbanned!`);
 });
 bot.on('guildCreate', guild => {
   chans[0].send(`I have joined  ${guild.name}, owned by ${guild.owner.user.username} use \`gco help\`,:pray:  Gco is the first indian bot made by reuben to know more join here https://discord.gg/errvBk2  we to make pokemon games and bot :pray: `);
@@ -78,7 +78,36 @@ bot.on('message', message => {
 bot.on("message", (message) => {
   if (message.content.startsWith("gcohelp")) {
     message.channel.send('oh i just dm you');
-    message.author.send(" ```gco hello - let me say hello then gcopurge -deletes messages and gcorolecreate -creates it own role gcokick -need to have Administrator role, gcoban - need Administrator role```");
+    message.author.send({embed: {
+    color: 3447003,
+    author: {
+      name: bot.user.username,
+      icon_url: bot.user.avatarURL
+    },
+    title: "invite bot",
+    url: "https://discordapp.com/oauth2/authorize?client_id=309565853307764736&scope=bot&permissions=84997",
+    description: "the gco bot is still underdevelopment please use it properly.",
+    fields: [{
+        name: "gcokick or gcoban",
+        value: "bot will kick or ban someone you need to have **Administrator** role."
+      },
+      {
+        name: "GCO SERVER",
+        value: "you can join here(https://discord.gg/jE8JF) GCO our server."
+      },
+      {
+        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping`",
+        value: "use this commands."
+  
+      }
+    ],
+    timestamp: new Date(),
+    footer: {
+      icon_url: bot.user.avatarURL,
+      text: "made by reuben"
+    }
+  }
+});
   }
 });
 bot.on('roleCreate', role => {
