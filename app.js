@@ -14,41 +14,7 @@ bot.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
   bot.on("resume", () => {
       console.log("im back");
   });
-bot.on('guildMemberAdd', member => {
-  let guild = member.guild;
-  chans[0].send(`Please welcome ${member.user} to the server!`);
-});
-  bot.on('guildDelete', guild => {
-    console.log(`I have left ${guild.name} at ${new Date()}`);
-    chans[0].send(`I have left ${guild.name}`);
-  });
-  bot.on('channelCreate', channel => {
-    console.log(`A ${channel.type} channel by the name of ${channel.name} was created ${channel.createdAt} with the ID of ${channel.id}`);
-    if (channel.type === 'text') return channel.send('You were successful in creating this channel.');
-  });
-bot.on('guildCreate', guild => {
-  console.log(`I have joined  ${guild.name}, owned by ${guild.owner.user.username}`);
-  const channel = guild.channels.find('name', 'gco-log');
-  if (!channel) return;
-channel.send(`i have joined  ${guild.name}, owned by ${guild.owner.user.username} `);
-});
-bot.on('channelDelete', channel => {
-  console.log(`A ${channel.type} by the name of ${channel.name} was successfully deleted.`);
-    chans[0].send(`channel deleted`);
-});
-bot.on('guildMemberRemove', member => {
-  let guild = member.guild;
-  chans[0].send(`Please say goodbye to ${member.user.username} we will miss you!`);
-});
-bot.on('guildBanAdd',(guild, user) => {
-    chans[0].send(`${user.username} was just banned! `);
-});
-bot.on('guildBanRemove',(guild, user) => {
-    chans[0].send(`${user.username} was just unbanned!`);
-});
-bot.on('guildCreate', guild => {
-  chans[0].send(`I have joined  ${guild.name}, owned by ${guild.owner.user.username} use \`gco help\`,:pray:  Gco is the first indian bot made by reuben to know more join here https://discord.gg/errvBk2  we to make pokemon games and bot :pray: `);
-});
+
   bot.on('message', message => {
   // If the message is "what is my avatar"
   if (message.content === 'gcoavatar') {
@@ -96,7 +62,7 @@ bot.on("message", (message) => {
         value: "you can join here(https://discord.gg/jE8JF) GCO our server."
       },
       {
-        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping`",
+        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar`",
         value: "use this commands."
   
       }
@@ -114,18 +80,7 @@ bot.on('roleCreate', role => {
   let guild = role.guild;
   chans[0].send(`A new role has been created :smile: `);
 });
-bot.on('presenceupdate',(oldMember,newMember)  => {
-    let guild = newMember.guild;
-    let playrole = guild.roles.find("name","playing Roblox");
-    let keys = newMember.roles.keyArray();
 
-    if (!playrole) return;
-    if(newMember.user.presence.game && newMember.user.presence.game.name === "Roblox") {
-        newMember.addRole(playRole);
-    } else if (!newMember.user.presence.game && keys.includes(playRole.id)) {
-        newMember.removeRole(playRole);
-    }
-});
 var prefix = 'gco'
 bot.on('message', message => {
   var guild = message.guild;
