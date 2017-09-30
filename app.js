@@ -76,10 +76,6 @@ bot.on("message", (message) => {
 });
   }
 });
-bot.on('roleCreate', role => {
-  let guild = role.guild;
-  chans[0].send(`A new role has been created :smile: `);
-});
 
 var prefix = 'gco'
 bot.on('message', message => {
