@@ -62,7 +62,7 @@ bot.on("message", (message) => {
         value: "you can join here(https://discord.gg/jE8JF) GCO our server."
       },
       {
-        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar`",
+        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar` or `gcowner`",
         value: "use this commands."
   
       }
