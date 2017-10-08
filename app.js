@@ -1,54 +1,55 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
+const gco = new Discord.Client();
+const fs = require("fs");
+let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 
-
-bot.on('ready', () => {
+gco.on('ready', () => {
   console.log('gco is ready!');
-  let guilds = bot.guilds.array()
-bot.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
+  let guilds = gco.guilds.array()
+gco.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
   });
-  bot.on("reconnecting", () => {
+  gco.on("reconnecting", () => {
       console.log("i was wasting time");
   });
 
-  bot.on("resume", () => {
+  gco.on("resume", () => {
       console.log("im back");
   });
 
-  bot.on('message', message => {
-  // If the message is "what is my avatar"
+  gco.on('message', message => {
   if (message.content === 'gcoavatar') {
-    // Send the user's avatar URL
     message.reply(message.author.avatarURL);
   }
 });
-bot.on('message', message => {
-  // If the message is "ping"
+gco.on('message', message => {
   if (message.content === 'gco how are you') {
-    // Send "pong" to the same channel
     message.channel.send('im fine');
   }
 });
-bot.on('message', message => {
-  // If the message is "ping"
+gco.on('message', message => {
   if (message.content === 'gco server') {
-    // Send "pong" to the same channel
     message.channel.send('https://discord.gg/errvBk2 join gco and enjoy');
   }
 });
-bot.on('message', message => {
+gco.on('message', message => {
   if (message.content === 'gco owner') {
     message.channel.send('my owner is master ```reuben``` `https://discord.gg/errvBk2 join here.`');
    }
 });
-bot.on("message", (message) => {
+gco.on("guildCreate", guild => {
+console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+const channel = guild.channels.find('name', 'general');
+  if (!channel) return;
+  channel.send(`i have joined the server${guild.name} owned by,${guild.owner.username}  this guild has ${guild.memberCount} members! `);
+});
+gco.on("message", (message) => {
   if (message.content.startsWith("gcohelp")) {
     message.channel.send('oh i just dm you');
     message.author.send({embed: {
     color: 3447003,
     author: {
-      name: bot.user.username,
-      icon_url: bot.user.avatarURL
+      name: gco.user.username,
+      icon_url: gco.user.avatarURL
     },
     title: "invite bot",
     url: "https://discordapp.com/oauth2/authorize?client_id=309565853307764736&scope=bot&permissions=84997",
@@ -64,21 +65,47 @@ bot.on("message", (message) => {
       {
         name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar` or `gcowner`",
         value: "use this commands."
-  
+
       }
     ],
     timestamp: new Date(),
     footer: {
-      icon_url: bot.user.avatarURL,
+      icon_url: gco.user.avatarURL,
       text: "made by reuben"
     }
   }
 });
   }
 });
+gco.on("message", message => {
+  if (!message.content.startsWith(prefix)) return;
+  if (message.author.bot) return;
+
+  if (!points[message.author.id]) points[message.author.id] = {
+    points: 0,
+    level: 0
+  };
+  let userData = points[message.author.id];
+  userData.points++;
+
+  let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
+  if (curLevel > userData.level) {
+    // Level up!
+    userData.level = curLevel;
+    message.reply(`You"ve leveled up to level **${curLevel}**! Ain"t that dandy?`);
+  }
+
+  if (message.content.startsWith(prefix + "level")) {
+    message.reply(`You are currently level ${userData.level}, with ${userData.points} points.`);
+  }
+  fs.writeFile("./points.json", JSON.stringify(points), (err) => {
+    if (err) console.error(err)
+  });
+
+});
 
 var prefix = 'gco'
-bot.on('message', message => {
+gco.on('message', message => {
   var guild = message.guild;
   let args = message.content.split(' ').slice(1);
   var result = args.join(' ');
@@ -120,6 +147,6 @@ bot.on('message', message => {
    if(!member.bannable)
 return message.reply("I cannot ban this user! Do they have a higher role? Do I have ban permissions?");
 
-  } 
+  }
 });
-bot.login('process.env.BOT_TOKEN');
+gco.login('process.env.BOT_TOKEN');
