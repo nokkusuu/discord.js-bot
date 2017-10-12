@@ -5,6 +5,7 @@ let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
 
 gco.on('ready', () => {
   console.log('gco is ready!');
+  gco.user.setStatus("idle");
   let guilds = gco.guilds.array()
 gco.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
   });
@@ -36,11 +37,35 @@ gco.on('message', message => {
     message.channel.send('my owner is master ```reuben``` `https://discord.gg/errvBk2 join here.`');
    }
 });
+		gco.on('message', message => {
+    if (message.content === "random") {
+    	var sayings = ["It is certain",
+										"It is decidedly so",
+										"Without a doubt",
+										"Yes, definitely",
+										"You may rely on it",
+										"As I see it, yes",
+										"Most likely",
+										"Outlook good",
+										"Yes",
+										"Signs point to yes",
+										"Reply hazy try again",
+										"Ask again later",
+										"Better not tell you now",
+										"Cannot predict now",
+										"Concentrate and ask again",
+										"Don't count on it",
+										"My reply is no",
+										"My sources say no",
+										"Outlook not so good",
+										"Very doubtful"];
+
+			var result = Math.floor((Math.random() * sayings.length) + 0);
+			message.reply(sayings[result]);
+}
+});
 gco.on("guildCreate", guild => {
 console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-const channel = guild.channels.find('name', 'general');
-  if (!channel) return;
-  channel.send(`i have joined the server${guild.name} owned by,${guild.owner.username}  this guild has ${guild.memberCount} members! `);
 });
 gco.on("message", (message) => {
   if (message.content.startsWith("gcohelp")) {
@@ -65,7 +90,14 @@ gco.on("message", (message) => {
       {
         name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar` or `gcowner`",
         value: "use this commands."
-
+		  },
+      {
+        name: "```Do you know that Reuben disabled welcome and goodbye messages```",
+        value: "```dont worry soon there will be a welcome and goodbye. ```"
+      },
+      {
+        name:"** don't forget bot is underdevelopment**",
+        value:"**GCO forever and ever still it is Gco**"
       }
     ],
     timestamp: new Date(),
