@@ -37,28 +37,27 @@ gco.on('message', message => {
     message.channel.send('my owner is master ```reuben``` `https://discord.gg/errvBk2 join here.`');
    }
 });
-		gco.on('message', message => {
-    if (message.content === "random") {
-    	var sayings = ["It is certain",
-										"It is decidedly so",
-										"Without a doubt",
-										"Yes, definitely",
-										"You may rely on it",
-										"As I see it, yes",
-										"Most likely",
-										"Outlook good",
-										"Yes",
-										"Signs point to yes",
-										"Reply hazy try again",
-										"Ask again later",
-										"Better not tell you now",
-										"Cannot predict now",
-										"Concentrate and ask again",
-										"Don't count on it",
-										"My reply is no",
+   gco.on('message', message => {
+    if (message.content === "hello") {
+    	var sayings = ["hey",
+										"hello dont disturb",
+										"master reuben will be angry",
+										":slight_smile:  hey man dont disturb use gcohelp",
+										"hello",
+										"Ah I see it, you look to be enjoying here",
+										"Most likely i like you",
+										"im busy use gcohelp",
+										"hmm... when will pokemon gao release",
+										"hey bro/sis im fine",
+										"im just working",
+										"dont disturb ",
+										"things are not the same",
+										"Concentrate on your work",
+										"Don't count on me for help",
+										"hi",
 										"My sources say no",
-										"Outlook not so good",
-										"Very doubtful"];
+										"you are thinking something bad about me",
+										"Very doubtful...."];
 
 			var result = Math.floor((Math.random() * sayings.length) + 0);
 			message.reply(sayings[result]);
@@ -88,12 +87,36 @@ gco.on("message", (message) => {
         value: "you can join here(https://discord.gg/jE8JF) GCO our server."
       },
       {
-        name: "`gcopurge` or `gcorolecreate` and `gcohello` and `ping` and `gcoavatar` or `gcowner`",
-        value: "use this commands."
+        name: "```gcopurge```",
+        value: "deletes mesages"
 		  },
       {
         name: "```Do you know that Reuben disabled welcome and goodbye messages```",
         value: "```dont worry soon there will be a welcome and goodbye. ```"
+      },
+      {
+        name:"```hello```",
+        value:"sends random text"
+      },
+      {
+        name:"```gcoavatar```",
+        value:"still working on it sends your avatar"
+      },
+      {
+        name:"```gcoowner```",
+        value:"owner"
+      },
+      {
+        name:"```gcorolecreate```",
+        value:"creates role"
+      },
+      {
+        name:"```gcolevel```",
+        value:"your level"
+      },
+      {
+        name:"```gcoping```",
+        value:"your ping"
       },
       {
         name:"** don't forget bot is underdevelopment**",
@@ -103,7 +126,7 @@ gco.on("message", (message) => {
     timestamp: new Date(),
     footer: {
       icon_url: gco.user.avatarURL,
-      text: "made by reuben"
+      text: "bot made by reuben"
     }
   }
 });
@@ -156,9 +179,6 @@ gco.on('message', message => {
 
   if (message.content.startsWith(prefix + 'ping')) {
     message.channel.send(`Pong! \`${Date.now() - message.createdTimestamp} ms\``);
-  } else
-  if (message.content.startsWith(prefix + 'hello')) {
-    message.channel.send(':slight_smile:  hey man dont disturb use gcohelp');
   } else
   if (message.content.startsWith(prefix + 'kick')) {
     if(!message.member.roles.some(r=>["Administrator", "Moderator","Mod","Admin"].includes(r.name)) )
