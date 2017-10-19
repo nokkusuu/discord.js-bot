@@ -4,12 +4,15 @@
   "description": "bot made by reuben fernandes first goan bot for discord",
   "main": "app.js",
   "dependencies": {
+    "cleverbot-node": "^0.3.11",
     "discord.js": "^11.2.1",
+    "get-the-weather": "^1.3.0",
+    "moment": "^2.19.1",
     "node.js": "^0.0.0"
   },
   "devDependencies": {},
-  "scripts": { 
-    "test" : "echo \"Error: no test specified\" && exit 1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "gco"
