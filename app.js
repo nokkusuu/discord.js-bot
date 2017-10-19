@@ -1,7 +1,12 @@
 const Discord = require('discord.js');
 const gco = new Discord.Client();
 const fs = require("fs");
+const moment = require("moment");
+const weather = require("weather-js");
+
 let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
+let userData = JSON.parse(fs.readFileSync('Storage/userData.json', 'utf8'));
+//if (userData[message.author.id + message.guild.id].lastDaily)userData[message.author.id + message.guild.id].lastDaily = "not collected";
 
 gco.on('ready', () => {
   console.log('gco is ready!');
@@ -20,25 +25,22 @@ gco.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
   gco.on('message', message => {
   if (message.content === 'gcoavatar') {
     message.reply(message.author.avatarURL);
+
   }
 });
 gco.on('message', message => {
-  if (message.content === 'gco how are you') {
-    message.channel.send('im fine');
-  }
-});
-gco.on('message', message => {
-  if (message.content === 'gco server') {
+  if (message.content === 'gcoserver') {
     message.channel.send('https://discord.gg/errvBk2 join gco and enjoy');
   }
 });
 gco.on('message', message => {
-  if (message.content === 'gco owner') {
+  if (message.content === 'gcoowner') {
     message.channel.send('my owner is master ```reuben``` `https://discord.gg/errvBk2 join here.`');
+     message.react(':slight_smile' )
    }
 });
    gco.on('message', message => {
-    if (message.content === "hello") {
+      if (message.content === 'hello') {
     	var sayings = ["hey",
 										"hello dont disturb",
 										"master reuben will be angry",
@@ -47,7 +49,7 @@ gco.on('message', message => {
 										"Ah I see it, you look to be enjoying here",
 										"Most likely i like you",
 										"im busy use gcohelp",
-										"hmm... when will pokemon gao release",
+										"hmm... when will pokemon goa release",
 										"hey bro/sis im fine",
 										"im just working",
 										"dont disturb ",
@@ -64,13 +66,81 @@ gco.on('message', message => {
 }
 });
 gco.on("guildCreate", guild => {
-console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+console.log(`New guild joined: ${guild.name} and the id is ${guild.id}. This guild has ${guild.memberCount} members!`);
+const welcomechannel = guild.channels.find('name', 'general');
+if (welcomechannel) {
+welcomechannel.send(`i have joined a server ${guild.name} This guild has ${guild.memberCount} members! if you really want to help us you can join Gco is a bot made by reuben first goan bot you can join us at https://discord.gg/jE8JF `);
+guild.channels.get('366171667153682432').send(`i have joined a server ${guild.name} This guild has ${guild.memberCount} members! `)
+}
 });
+gco.on("guildMemberAdd", member => {
+console.log(`welcome to ${guild.name} hope he stays there for a long time `);
+const welcomechannel = member.guild.channels.find('name', 'general');
+if (welcomechannel) {
+welcomechannel.send(`welcome to ${member.guild} hope you enjoy ${member.user.tag}  `);
+}
+});
+gco.on("guildMemberRemove", member => {
+console.log(`bye bye ${member.user.tag} hope he stays there for a long time `);
+const welcomechannel = member.guild.channels.find('name', 'general');
+if (welcomechannel) {
+welcomechannel.send(`adeus..  hope you enhoyed your time here  ${member.user.tag}  `);
+}
+});
+gco.on('message', message => {
+ if (message.content.startsWith("8ball")) {
+   var sayings = ["It is certain :smile:",
+										"It is decidedly so :smile:",
+										"Without a doubt :sunglasses:",
+										"Yes, definitely :sunglasses:",
+										"You may rely on it",
+										"As I see it, yes",
+										"Most likely :thinking: ",
+										"Outlook good :smile: ",
+										"Yes :smile: ",
+										"Signs point to yes",
+										"Reply hazy try again :dizzy_face:",
+										"Ask again later :dizzy_face: ",
+										"Better not tell you now :dizzy_face:",
+										"Cannot predict now :thinking: ",
+										"Concentrate and ask again",
+										"Don't count on it",
+										"My reply is no :astonished:",
+										"My sources say no :astonished: ",
+										"Outlook not so good",
+                     "Very doubtful :thinking: "];
+
+   var result = Math.floor((Math.random() * sayings.length) + 0);
+   message.reply(sayings[result]);
+}
+});
+//gco.on('message', message => {
+//if (message.content === prefix + 'daily') {
+  //if (userData[message.author.id + message.guild.id].lastDaily != moment().format('L')) {
+     //userData[message.author.id + message.guild.id].lastDaily = moment().format('L')
+     //userData[message.author.id + message.guild.id].money  += 200
+//   message.channel.send({embed: {
+//   title: "daily",
+//   description: "you got 200 added to your ACCOUNT"
+// }})
+// } else {
+//   message.channel.send({embed: {
+  //   title: "daily",
+  //   description: "you already collected your daily"
+//  }})
+//  }
+//
+//events
+//fs.writeFile("storage/userData.json", JSON.stringify(points), (err) => {
+  //if (err) console.error(err)
+  //})
+//})
+
 gco.on("message", (message) => {
   if (message.content.startsWith("gcohelp")) {
     message.channel.send('oh i just dm you');
     message.author.send({embed: {
-    color: 3447003,
+    color: 0xff005d,
     author: {
       name: gco.user.username,
       icon_url: gco.user.avatarURL
@@ -91,12 +161,12 @@ gco.on("message", (message) => {
         value: "deletes mesages"
 		  },
       {
-        name: "```Do you know that Reuben disabled welcome and goodbye messages```",
-        value: "```dont worry soon there will be a welcome and goodbye. ```"
+        name: "```welcome and goodbye```",
+        value: "``` welcome and goodbye work only if you have a general channel. ```"
       },
       {
-        name:"```hello```",
-        value:"sends random text"
+        name:"```8ball```",
+        value:"ask the bot any question"
       },
       {
         name:"```gcoavatar```",
@@ -170,8 +240,7 @@ gco.on('message', message => {
 
   if (message.content.startsWith(prefix + 'rolecreate')) {
     guild.createRole({name:'A Gco\'s role', color:'#00FFFF', mentionable:true}).catch(error => console.log(error));
-  } else
-
+   }else
   if (message.content.startsWith(prefix + 'purge')) {
     let messagecount = parseInt(result);
     message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
@@ -201,4 +270,4 @@ return message.reply("I cannot ban this user! Do they have a higher role? Do I h
 
   }
 });
-gco.login('process.env.BOT_TOKEN');
+gco.login('PROCESS.ENV.BOT_TOKEN');
