@@ -3,16 +3,13 @@ const gco = new Discord.Client();
 const fs = require("fs");
 const moment = require("moment");
 const weather = require("weather-js");
-
-let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
-let userData = JSON.parse(fs.readFileSync('Storage/userData.json', 'utf8'));
-//if (userData[message.author.id + message.guild.id].lastDaily)userData[message.author.id + message.guild.id].lastDaily = "not collected";
+const embed = new Discord.RichEmbed()
 
 gco.on('ready', () => {
   console.log('gco is ready!');
   gco.user.setStatus("idle");
   let guilds = gco.guilds.array()
-gco.user.setPresence({game:{name:`type gcohelp | ${guilds.length}`, type:0}})
+gco.user.setPresence({game:{name:`${guilds.length} guilds | use gcohelp`, type:0}})
   });
   gco.on("reconnecting", () => {
       console.log("i was wasting time");
@@ -69,22 +66,80 @@ gco.on("guildCreate", guild => {
 console.log(`New guild joined: ${guild.name} and the id is ${guild.id}. This guild has ${guild.memberCount} members!`);
 const welcomechannel = guild.channels.find('name', 'general');
 if (welcomechannel) {
-welcomechannel.send(`i have joined a server ${guild.name} This guild has ${guild.memberCount} members! if you really want to help us you can join Gco is a bot made by reuben first goan bot you can join us at https://discord.gg/jE8JF `);
-guild.channels.get('366171667153682432').send(`i have joined a server ${guild.name} This guild has ${guild.memberCount} members! `)
+welcomechannel.send(`i have joined a server ${guild.name} This guild has ${guild.memberCount} members! if you really want to help us you can join Gco it is a bot made by reuben first goan bot you can join us at https://discord.gg/rtQpjaJ `);
+gco.channels.get('370563395784671244').send({embed: {
+color: 0xff0202,
+author: {
+  name: gco.user.username,
+  icon_url: gco.user.avatarURL
+},
+title: "joined server",
+description: `New guild joined: ${guild.name} and the id is ${guild.id}. This guild has ${guild.memberCount} members!`,
+fields: [{
+  name:"** the more i get the more the fun**",
+  value:"**GCO is happy **"
+}
+],
+timestamp: new Date(),
+footer: {
+  icon_url: gco.user.avatarURL,
+  text: "bot made by Reuben Fernandes"
+}
 }
 });
+}
+});
+
 gco.on("guildMemberAdd", member => {
-console.log(`welcome to ${guild.name} hope he stays there for a long time `);
+console.log(`welcome to ${member.guild} hope he stays there for a long time `);
 const welcomechannel = member.guild.channels.find('name', 'general');
 if (welcomechannel) {
-welcomechannel.send(`welcome to ${member.guild} hope you enjoy ${member.user.tag}  `);
+welcomechannel.send({embed: {
+color: 0xd800ff,
+author: {
+  name: gco.user.username,
+  icon_url: gco.user.avatarURL
+},
+title: "joined server",
+description: `olá.. welcome ${member.user.tag} to ${guild.name} this is the best guild`,
+fields: [{
+  name:"** come and stay  **",
+  value:"**GCO is always happy **"
+}
+],
+timestamp: new Date(),
+footer: {
+  icon_url: gco.user.avatarURL,
+  text: "bot made by Reuben Fernandes"
+}
+}
+});
 }
 });
 gco.on("guildMemberRemove", member => {
-console.log(`bye bye ${member.user.tag} hope he stays there for a long time `);
+console.log(`bye bye ${member.user.tag} hope you stay here for a long time `);
 const welcomechannel = member.guild.channels.find('name', 'general');
 if (welcomechannel) {
-welcomechannel.send(`adeus..  hope you enhoyed your time here  ${member.user.tag}  `);
+welcomechannel.send({embed: {
+color: 0xffe100,
+author: {
+  name: gco.user.username,
+  icon_url: gco.user.avatarURL
+},
+title: "left server",
+description: `adeus.. bye bye ${member.user.tag} i thought you loved this server`,
+fields: [{
+  name:"** nooo why did you leave **",
+  value:"**GCO is not happy **"
+}
+],
+timestamp: new Date(),
+footer: {
+  icon_url: gco.user.avatarURL,
+  text: "bot made by Reuben Fernandes"
+}
+}
+});
 }
 });
 gco.on('message', message => {
@@ -114,28 +169,6 @@ gco.on('message', message => {
    message.reply(sayings[result]);
 }
 });
-//gco.on('message', message => {
-//if (message.content === prefix + 'daily') {
-  //if (userData[message.author.id + message.guild.id].lastDaily != moment().format('L')) {
-     //userData[message.author.id + message.guild.id].lastDaily = moment().format('L')
-     //userData[message.author.id + message.guild.id].money  += 200
-//   message.channel.send({embed: {
-//   title: "daily",
-//   description: "you got 200 added to your ACCOUNT"
-// }})
-// } else {
-//   message.channel.send({embed: {
-  //   title: "daily",
-  //   description: "you already collected your daily"
-//  }})
-//  }
-//
-//events
-//fs.writeFile("storage/userData.json", JSON.stringify(points), (err) => {
-  //if (err) console.error(err)
-  //})
-//})
-
 gco.on("message", (message) => {
   if (message.content.startsWith("gcohelp")) {
     message.channel.send('oh i just dm you');
@@ -181,8 +214,8 @@ gco.on("message", (message) => {
         value:"creates role"
       },
       {
-        name:"```gcolevel```",
-        value:"your level"
+        name:"```gcolevel [disabled]```",
+        value:"your level **disabled for timming**"
       },
       {
         name:"```gcoping```",
@@ -202,32 +235,7 @@ gco.on("message", (message) => {
 });
   }
 });
-gco.on("message", message => {
-  if (!message.content.startsWith(prefix)) return;
-  if (message.author.bot) return;
 
-  if (!points[message.author.id]) points[message.author.id] = {
-    points: 0,
-    level: 0
-  };
-  let userData = points[message.author.id];
-  userData.points++;
-
-  let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
-  if (curLevel > userData.level) {
-    // Level up!
-    userData.level = curLevel;
-    message.reply(`You"ve leveled up to level **${curLevel}**! Ain"t that dandy?`);
-  }
-
-  if (message.content.startsWith(prefix + "level")) {
-    message.reply(`You are currently level ${userData.level}, with ${userData.points} points.`);
-  }
-  fs.writeFile("./points.json", JSON.stringify(points), (err) => {
-    if (err) console.error(err)
-  });
-
-});
 
 var prefix = 'gco'
 gco.on('message', message => {
