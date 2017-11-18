@@ -3,6 +3,7 @@ const gco = new Discord.Client();
 const ytdl = require('ytdl-core');
 const sql = require("sqlite");
 const fs = require("fs");
+const db = require('quick.db');
 const weather = require('weather-js');
 
 const moment = require('moment');
