@@ -17,15 +17,6 @@ const app = express();
 const myName = 'bot made by reuben and arun kapil mystic... 3ddelano.. blackbird...';
 console.log(myName);
 
-app.get("/", (request, response) => {
-  console.log(Date.now() + " Ping Received");
-  response.sendStatus(200);
-});
-app.listen(process.env.PORT);
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 2800);
-
 gco.on('ready', () => {
   console.log('gco is ready!'); 
   let guilds = gco.guilds.array()
