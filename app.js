@@ -3,24 +3,16 @@ const gco = new Discord.Client();
 const ytdl = require('ytdl-core');
 const sql = require("sqlite");
 const fs = require("fs");
-const db = require('quick.db');
 const weather = require('weather-js');
-
+const db = require('quick.db');
 const moment = require('moment');
 require('moment-duration-format') 
 
 sql.open("./score.sqlite");
-const http = require('http'); 
-const express = require('express');
-const app = express();
-
-const myName = 'bot made by reuben and arun kapil mystic... 3ddelano.. blackbird...';
-console.log(myName);
-
 gco.on('ready', () => {
   console.log('gco is ready!'); 
   let guilds = gco.guilds.array()
-gco.user.setPresence({game:{name:`Pokemon Goa  | just use gcohelp | Running on ${guilds.length} guilds `, type:0}})
+gco.user.setPresence({game:{name:`Pokemon GOA | just use gcohelp | Running on ${guilds.length} guilds `, type:0}})
 });
 
   gco.on("reconnecting", () => {
@@ -36,47 +28,7 @@ gco.on("message", message => {
   if (message.content.startsWith(prefix + "test")) {
     message.channel.send("im working thanks for checking.");
   }
-
-  sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-    if (!row) {
-      sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
-    } else {
-      let curLevel = Math.floor(0.1 * Math.sqrt(row.points + 1));
-      if (curLevel > row.level) {
-        row.level = curLevel;
-        sql.run(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level} WHERE userId = ${message.author.id}`);
-        message.reply(`You've leveled up to level **${curLevel}**! thats good`);
-      }
-      sql.run(`UPDATE scores SET points = ${row.points + 1} WHERE userId = ${message.author.id}`);
-    }
-  }).catch(() => {
-    console.error;
-    sql.run("CREATE TABLE IF NOT EXISTS scores (userId TEXT, points INTEGER, level INTEGER)").then(() => {
-      sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
-    });
-  });
-
-  if (!message.content.startsWith(prefix)) return;
-
-  if (message.content.startsWith(prefix + "level")) {
-    if (message.author.bot) return
-    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-      if (!row) return message.reply("Your current level is 0 how sad :sob:");
-      message.reply(`Your current level is ${row.level} wow`);
-    });
-  } else
-
-  if (message.content.startsWith(prefix + "points")) {
-    if (message.author.bot) return
-    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
-      if (!row) return message.reply("sadly you do not have any points yet!");
-      message.reply(`you currently have ${row.points} points, good going!`);
-    });
-  }
-});
-
-gco.on('message', message => {
-  if (message.content === `gcouptime`) {
+ if (message.content.startsWith(prefix + "uptime")) {
     if (message.author.bot) return
           message.channel.send(`${gco.user.tag} Uptime: ` + moment.duration(gco.uptime).format(" D [Days], H [Hours], m [Minutes], s [Seconds]"));
   }
@@ -96,8 +48,16 @@ if (message.content.startsWith(prefix + "server")) {
   // If the message is "what is my avatar"
  if (message.content.startsWith(prefix + "avatar")) {
     if (message.author.bot) return
-    let user = message.mentions.users.first();
-    message.reply(message.user.avatarURL);
+     if (!message.mentions.users.size) {
+            return message.channel.send(`Your avatar: ${message.author.displayAvatarURL}`);
+        }
+    
+        const avatarList = message.mentions.users.map(user => {
+            return `${user.username}'s avatar:\n\
+             ${user.displayAvatarURL}`;
+        });
+    
+        message.channel.send(avatarList);
   }
 });
 gco.on("message", message => { //in here it must go the setavatar
@@ -349,24 +309,25 @@ if (!member) return message.channel.send("Mention someone to use this command.")
       name: gco.user.username,
       icon_url: gco.user.avatarURL
     },
-    title: "invite bot",
+    title: "Invite Bot",
     url: "https://discordapp.com/oauth2/authorize?client_id=309565853307764736&scope=bot&permissions=84997",
-    description: "the gco bot is still underdevelopment please use it properly.",
+    description: "The gco360full bot is still underdevelopment!! Please use it properly.",
     fields: [{
         name: "GCO SERVER",
-        value: "you can join here(https://discord.gg/rtQpjaJ) GCO our server."
+        value: "you can join here(https://discord.gg/rtQpjaJ) GCO Official server."
       },
       {
         name: "Moderation",
         value: "`gcopurge` `gcoban` `gcokick` `gcorolecreate`"
 		  },
       {
-        name: "```welcome and goodbye```",
+        name: "```Welcome and Goodbye```",
         value: "``` welcome and goodbye work only if you have a general channel. ```"
       },
       {
-        name:"commands",
-        value:"`gcopat` `8ball`[just 8ball] `gcofight` `gcoavatar` `gcodice` `gcoping``gcoweather` `gcouptime` `gcohack` [gcohack you should try] `gcorvers`"
+        name:"Commands",
+        value:"`gcopat` `8ball`[just 8ball] `gcofight` `gcoavatar` `gcodice` `gcoping` `gcoweather`",
+  
       },
       {
         name:"points sytem",
@@ -377,18 +338,18 @@ if (!member) return message.channel.send("Mention someone to use this command.")
         value:"`gcoplay` [gcoplay, im still working on it] `gcoinvite` `gcoserver` `gcodevelopers`"
       },
       {
-          name:"gcosuggest [ur message]",
-        value:"send something u want to tell"
+        name:"**if you want to help us in hosting our bot please tell**",
+        value:"**`gcohack` [gcohack you should try] `gcoservers` `gcosinfo` `gcoflip`**"
       },
       {
-        name:"** Don't forget bot is underdevelopment**",
-        value:"**GCO forever and ever still it is Gco**"
+           name:"gcosuggest [ur message]",
+        value:"send something u want to tell"
       }
     ],
     timestamp: new Date(),
     footer: {
       icon_url: gco.user.avatarURL,
-      text: "bot made by reuben"
+      text: "Bot made by Reuben"
     }
   }
 });
@@ -447,6 +408,15 @@ gco.on('message', message => {
     let messagecount = parseInt(result);
     message.channel.fetchMessages({limit: messagecount}).then(messages => message.channel.bulkDelete(messages));
   } else
+    
+if (message.content.startsWith(prefix + "flip")) {
+    var result = Math.floor((Math.random() * 2) + 1);
+    if (result == 1) {
+        message.reply( "In the air and and and : You got **HEADS**");
+    } else if (result == 2) {
+        message.reply( "In the air and and and : You got **TAILS**");
+    }
+}else
 
   if (message.content.startsWith(prefix + 'ping')) {
     if (message.author.bot) return
@@ -483,6 +453,23 @@ gco.on('message', message => {
         return message.channel.send(`**Please give a role name**`)
 guild.giveUserRole({name:`${reason}`, mentionable:true}).catch(error => console.log(error));
  }else
+   if (message.content.startsWith(prefix + 'sinfo')) {
+     if (message.channel.type === "dm") return
+      const embed = new Discord.RichEmbed()
+         .setAuthor(message.guild.name, message.guild.iconURL)
+         .setColor(3447003)
+         .setDescription(`:cop: **Owner**: ${message.guild.owner.user.tag} (${message.guild.owner.id})`)
+         .addField(':busts_in_silhouette: Member Count', `:couple: ${message.guild.memberCount  - message.guild.members.filter(m=>m.user.bot).size} users\n\:robot: ${message.guild.members.filter(m=>m.user.bot).size} bots`, true)
+         .addField(':alarm_clock: AFK Timeout', `${message.guild.afkTimeout / 60} minutes`, true)
+         .addField(':zzz: AFK Channel', `${message.guild.afkChannelID === null ? 'No AFK Channel' : gco.channels.get(message.guild.afkChannelID).name} (${message.guild.afkChannelID === null ? '' : message.guild.afkChannelID})`, true)
+         .addField(':map: Location', message.guild.region, true)
+         .addField(':calendar_spiral: Created at', message.guild.createdAt.toLocaleString(), true)
+         .addBlankField(true)
+         .setTimestamp()
+         .setFooter(gco.user.username, gco.user.avatarURL);
+        
+         message.channel.send({embed});
+     }else
 if (message.content.startsWith(prefix + 'ban')) {
   if (message.author.bot) return
     var member = message.mentions.members.first();
@@ -666,4 +653,4 @@ if (message.content.startsWith(prefix + "suggest")) {
     }
 
 });
- gco.login(process.env.TOKEN);
+gco.login(process.env.TOKEN);
